@@ -5,6 +5,26 @@ then
     parameter="$parameter --threads $THREADS"
 fi
 
+if [ ! -z "$DISABLE_NODELAY" ]
+then
+    parameter="$parameter --disable-nodelay"
+fi
+
+if [ ! -z "$FASTOPEN" ]
+then
+    parameter="$parameter --fastopen"
+fi
+
+if [ ! -z "$V3" ]
+then
+    parameter="$parameter --v3"
+fi
+
+if [ ! -z "$STRICT" ]
+then
+    parameter="$parameter --strict"
+fi
+
 if [ "$MODE" = "server" ]
 then
     parameter="$parameter $MODE"
@@ -12,6 +32,11 @@ then
     if [ ! -z "$TLS" ]
     then
         parameter="$parameter --tls $TLS"
+    fi
+
+    if [ ! -z "$WILDCARD_SNI" ]
+    then
+        parameter="$parameter --wildcard-sni $WILDCARD_SNI"
     fi
 fi
 
@@ -22,6 +47,11 @@ then
     if [ ! -z "$TLS" ]
     then
         parameter="$parameter --sni $TLS"
+    fi
+
+    if [ ! -z "$ALPN" ]
+    then
+        parameter="$parameter --alpn $ALPN"
     fi
 fi
 
@@ -40,4 +70,4 @@ then
     parameter="$parameter --password $PASSWORD"
 fi
 
-shadow-tls $parameter
+exec shadow-tls $parameter
